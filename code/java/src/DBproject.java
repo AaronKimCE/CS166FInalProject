@@ -298,8 +298,21 @@ public class DBproject{
 	}//end readChoice
 
 	public static void AddDoctor(DBproject esql) {//1
+		// Add a doctor to the database
+		int did;
+		do {
+			System.out.print("Input Doctor's ID:");
+			try {
+				did = Integer.parseInt(in.readLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		return;
 	}
-
+	
 	public static void AddPatient(DBproject esql) {//2
 	}
 
