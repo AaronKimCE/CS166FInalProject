@@ -649,7 +649,7 @@ public class DBproject{
 		String date;
 		String timeslot;
 		String status;
-		String rs3 = "";
+		ResultSet rs3 = "";
 
 		do { // ID
 			System.out.print("Input Appointment's ID:");
@@ -697,7 +697,7 @@ public class DBproject{
 		} catch (Exception e) {
 			System.out.println("Search Table Error! Please double check values!");
 		}
-		if (rs3 == "") { // Didn't find appointment must update
+		if (rs3.getString(1) == "") { // Didn't find appointment must update
 			System.out.println("Appointment was not found in database, attempting to add new appointment...");
 			try { // Run the query
 				String query = "INSERT INTO Appointment (appnt_ID, adate, time_slot, status) VALUES (" + aid + ", \'" + date + "\', \'" + timeslot + "\', \'" + status + "\');";
@@ -710,9 +710,9 @@ public class DBproject{
 			System.out.println("Appointment found.");
 		}
 		// Check the appointment status & update
-		if (rs3 == "PA") { // Past appointment (Not available);
+		if (rs3.getString(1) == "PA") { // Past appointment (Not available);
 			System.out.println("Appointment already concluded. Not available.");
-		} else if (rs3 == "AC") { // Appointment already active, change to waitlisted and update tuples
+		} else if (rs3.getString(1) == "AC") { // Appointment already active, change to waitlisted and update tuples
 			try { // Run the query
 				String query = "UPDATE Appointment SET status = \'WL\' WHERE appnt_ID = " + aid + ";"; // UPDATE appointment to WL
 				esql.executeUpdate(query);
@@ -727,7 +727,7 @@ public class DBproject{
 			} catch (Exception e) {
 				System.out.println("Table update error! Please double check values!");
 			}
-		} else if (rs3 == "AV") { // Appointment is available, chenge to active and update tuples
+		} else if (rs3.getString(1) == "AV") { // Appointment is available, chenge to active and update tuples
 			try { // Run the query
 				String query = "UPDATE Appointment SET status = \'AC\' WHERE appnt_ID = " + aid + ";"; // UPDATE appointment to AC
 				esql.executeUpdate(query);
@@ -743,7 +743,7 @@ public class DBproject{
 			} catch (Exception e) {
 				System.out.println("Table update error! Please double check values!");
 			}
-		} else if (rs3 == "WL") { // Appointment is waitlisted, update tuples
+		} else if (rs3.getString(1) == "WL") { // Appointment is waitlisted, update tuples
 			try { // Run the query
 				int numappts;
 				numappts = esql.executeQuery("SELECT number_of_appts FROM Patient WHERE patient_ID = " + pid + ";");
