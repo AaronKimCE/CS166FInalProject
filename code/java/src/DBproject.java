@@ -432,6 +432,59 @@ public class DBproject{
 	}
 
 	public static void AddAppointment(DBproject esql) {//3
+		// Add an appointment to the database
+		int aid;
+		String date;
+		String timeslot;
+		String status;
+
+		do { // ID
+			System.out.print("Input Appointment's ID:");
+			try {
+				aid = Integer.parseInt(in.readLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // date
+			System.out.print("Input Appointment's Date (YYYY-MM-DD):");
+			try {
+				date = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // timeslot
+			System.out.print("Input Appointment's Timeslot (HH:MM-HH:MM):");
+			try {
+				timeslot = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // status
+			System.out.print("Input Appointment's Status (PA, AC, AV, WL):");
+			try {
+				status = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		try { // Run the query
+			String query = "INSERT INTO Appointment (appnt_ID, adate, time_slot, status) VALUES (" + aid + ", \'" + date + "\', \'" + timeslot + "\', \'" + status + "\');";
+			esql.executeUpdate(query);
+		} catch (Exception e) {
+			System.out.println("Table update error! Please double check values!");
+		}
+		return;
 	}
 
 
