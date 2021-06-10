@@ -495,6 +495,8 @@ public class DBproject{
 		String pname;
 		String gender;
 		int age;
+		String address;
+		int prevn;
 		int rs1 = 0;
 
 		do { // ID
@@ -544,8 +546,6 @@ public class DBproject{
 			System.out.println("Search Table Error! Please double check values!");
 		}
 		if (rs1 == 0) { // Didn't find patient must update
-			String address;
-			int prevn;
 			System.out.println("Patient was not found in database, attempting to add new patient...");
 			do { // Address
 				System.out.print("Input Patient's address:");
@@ -631,7 +631,7 @@ public class DBproject{
 		} catch (Exception e) {
 			System.out.println("Search Table Error! Please double check values!");
 		}
-		if (rs1 == 0) { // Didn't find doctor must update
+		if (rs2 == 0) { // Didn't find doctor must update
 			System.out.println("Doctor was not found in database, attempting to add new doctor...");
 			try { // Run the query
 				String query = "INSERT INTO Doctor (doctor_ID, name, specialty, did) VALUES (" + did + ", \'" + dname + "\', \'" + Specialty + "\', " + deptid + ");";
@@ -642,6 +642,123 @@ public class DBproject{
 			}
 		} else { // Found the patient
 			System.out.println("Doctor found.");
+		}
+
+		// Search for appointment
+		int aid;
+		String date;
+		String timeslot;
+		String status;
+		String rs3 = "";
+
+		do { // ID
+			System.out.print("Input Appointment's ID:");
+			try {
+				aid = Integer.parseInt(in.readLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // date
+			System.out.print("Input Appointment's Date (YYYY-MM-DD):");
+			try {
+				date = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // timeslot
+			System.out.print("Input Appointment's Timeslot (HH:MM-HH:MM):");
+			try {
+				timeslot = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // status
+			System.out.print("Input Appointment's Status (PA, AC, AV, WL):");
+			try {
+				status = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		try { // Run the query
+			String query = "SELECT status FROM Appointment WHERE appnt_ID = " + aid + ";";
+			rs3 = esql.executeQuery(query);
+		} catch (Exception e) {
+			System.out.println("Search Table Error! Please double check values!");
+		}
+		if (rs3 == "") { // Didn't find appointment must update
+			System.out.println("Appointment was not found in database, attempting to add new appointment...");
+			try { // Run the query
+				String query = "INSERT INTO Appointment (appnt_ID, adate, time_slot, status) VALUES (" + aid + ", \'" + date + "\', \'" + timeslot + "\', \'" + status + "\');";
+				esql.executeUpdate(query);
+				System.out.println("Appointment added.");
+			} catch (Exception e) {
+				System.out.println("Table update error! Please double check values!");
+			}
+		} else { // Found the appointment
+			System.out.println("Appointment found.");
+		}
+		// Check the appointment status & update
+		if (rs3 == "PA") { // Past appointment (Not available);
+			System.out.println("Appointment already concluded. Not available.");
+		} else if (rs3 == "AC") { // Appointment already active, change to waitlisted and update tuples
+			try { // Run the query
+				String query = "UPDATE Appointment SET status = \'WL\' WHERE appnt_ID = " + aid + ";"; // UPDATE appointment to WL
+				esql.executeUpdate(query);
+				int numappts;
+				numappts = esql.executeQuery("SELECT number_of_appts FROM Patient WHERE patient_ID = " + pid + ";");
+				query = "UPDATE Patient SET number_of_appts = " + (numappts + 1) + " WHERE patient_ID = " + pid + ";"; // UPDATE number appnts
+				esql.executeUpdate(query);
+				// Adding appointment to has_appointment table
+				query = "INSERT INTO has_appointment (appt_id, doctor_id) VALUES (" + aid + ", " + did + ");";
+				esql.executeUpdate(query);
+				System.out.println("Appointment already booked. Added to waitlist.");
+			} catch (Exception e) {
+				System.out.println("Table update error! Please double check values!");
+			}
+		} else if (rs3 == "AV") { // Appointment is available, chenge to active and update tuples
+			try { // Run the query
+				String query = "UPDATE Appointment SET status = \'AC\' WHERE appnt_ID = " + aid + ";"; // UPDATE appointment to AC
+				esql.executeUpdate(query);
+				int numappts;
+				numappts = esql.executeQuery("SELECT number_of_appts FROM Patient WHERE patient_ID = " + pid + ";");
+				query = "UPDATE Patient SET number_of_appts = " + (numappts + 1) + " WHERE patient_ID = " + pid + ";"; // UPDATE number appnts
+				esql.executeUpdate(query);
+
+				// Adding appointment to has_appointment table
+				query = "INSERT INTO has_appointment (appt_id, doctor_id) VALUES (" + aid + ", " + did + ");";
+				esql.executeUpdate(query);
+				System.out.println("Appointment booked. Thank you.");
+			} catch (Exception e) {
+				System.out.println("Table update error! Please double check values!");
+			}
+		} else if (rs3 == "WL") { // Appointment is waitlisted, update tuples
+			try { // Run the query
+				int numappts;
+				numappts = esql.executeQuery("SELECT number_of_appts FROM Patient WHERE patient_ID = " + pid + ";");
+				String query = "UPDATE Patient SET number_of_appts = " + (numappts + 1) + " WHERE patient_ID = " + pid + ";"; // UPDATE number appnts
+				esql.executeUpdate(query);
+
+				// Adding appointment to has_appointment table
+				query = "INSERT INTO has_appointment (appt_id, doctor_id) VALUES (" + aid + ", " + did + ");";
+				esql.executeUpdate(query);
+				System.out.println("Appointment currently waitlisted. Added to waitlist.");
+			} catch (Exception e) {
+				System.out.println("Table update error! Please double check values!");
+			}
+		} else {
+			System.out.println("Unknown Appointment Status.");
 		}
 
 		return;
