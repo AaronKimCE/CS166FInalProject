@@ -495,7 +495,7 @@ public class DBproject{
 		String pname;
 		String gender;
 		int age;
-		int rs1;
+		int rs1 = 0;
 
 		do { // ID
 			System.out.print("Input Patient's ID:");
