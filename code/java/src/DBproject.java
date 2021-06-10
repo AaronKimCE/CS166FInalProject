@@ -570,12 +570,80 @@ public class DBproject{
 			try { // Run the query
 				String query = "INSERT INTO Patient (patient_ID, name, gtype, age, address, number_of_appts) VALUES (" + pid + ", \'" + pname + "\', \'" + gender + "\', " + age + ", \'" + address + "\', " + prevn + ");";
 				esql.executeUpdate(query);
+				System.out.println("Patient added.");
 			} catch (Exception e) {
 				System.out.println("Table update error! Please double check values!");
 			}
 		} else { // Found the patient
 			System.out.println("Patient found.");
 		}
+
+		// Search for doctor
+		int did;
+		String dname;
+		String Specialty;
+		int deptid;
+		int rs2 = 0;
+
+		do { // ID
+			System.out.print("Input Doctor's ID:");
+			try {
+				did = Integer.parseInt(in.readLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // Name
+			System.out.print("Input Doctor's Name:");
+			try {
+				dname = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // Specialty
+			System.out.print("Input Doctor's Specialty:");
+			try {
+				Specialty = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // DID
+			System.out.print("Input Doctor's Department ID:");
+			try {
+				deptid = Integer.parseInt(in.readLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		try { // Run the query
+			String query = "SELECT doctor_ID FROM Doctor WHERE doctor_ID = " + did + ";";
+			rs2 = esql.executeQuery(query);
+		} catch (Exception e) {
+			System.out.println("Search Table Error! Please double check values!");
+		}
+		if (rs1 == 0) { // Didn't find doctor must update
+			System.out.println("Doctor was not found in database, attempting to add new doctor...");
+			try { // Run the query
+				String query = "INSERT INTO Doctor (doctor_ID, name, specialty, did) VALUES (" + did + ", \'" + dname + "\', \'" + Specialty + "\', " + deptid + ");";
+				esql.executeUpdate(query);
+				System.out.println("Doctor added.");
+			} catch (Exception e) {
+				System.out.println("Table update error! Please double check values!");
+			}
+		} else { // Found the patient
+			System.out.println("Doctor found.");
+		}
+
 		return;
 	}
 
