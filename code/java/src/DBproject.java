@@ -495,6 +495,7 @@ public class DBproject{
 		String pname;
 		String gender;
 		int age;
+		int rs1;
 
 		do { // ID
 			System.out.print("Input Patient's ID:");
@@ -538,10 +539,42 @@ public class DBproject{
 		} while (true);
 		try { // Run the query
 			String query = "SELECT patient_ID FROM Patient WHERE patient_ID = " + pid + ";";
-			ResultSet rs = esql.executeQuery(query);
-			System.out.println(rs.getString(i));
+			rs1 = esql.executeQuery(query);
 		} catch (Exception e) {
-			System.out.println("Table update error! Please double check values!");
+			System.out.println("Search Table Error! Please double check values!");
+		}
+		if (rs1 == 0) { // Didn't find patient must update
+			String address;
+			int prevn;
+			System.out.println("Patient was not found in database, attempting to add new patient...");
+			do { // Address
+				System.out.print("Input Patient's address:");
+				try {
+					address = in.readLine();
+					break;
+				} catch (Exception e) {
+					System.out.println("Your input is invalid!");
+					continue;
+				} // end try
+			} while (true);
+			do { // Num Appts
+				System.out.print("Input Patient's Number of Previous Appointments:");
+				try {
+					prevn = Integer.parseInt(in.readLine());
+					break;
+				} catch (Exception e) {
+					System.out.println("Your input is invalid!");
+					continue;
+				} // end try
+			} while (true);
+			try { // Run the query
+				String query = "INSERT INTO Patient (patient_ID, name, gtype, age, address, number_of_appts) VALUES (" + pid + ", \'" + pname + "\', \'" + gender + "\', " + age + ", \'" + address + "\', " + prevn + ");";
+				esql.executeUpdate(query);
+			} catch (Exception e) {
+				System.out.println("Table update error! Please double check values!");
+			}
+		} else { // Found the patient
+			System.out.println("Patient found.");
 		}
 		return;
 	}
