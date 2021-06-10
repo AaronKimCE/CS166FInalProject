@@ -490,6 +490,60 @@ public class DBproject{
 
 	public static void MakeAppointment(DBproject esql) {//4
 		// Given a patient, a doctor and an appointment of the doctor that s/he wants to take, add an appointment to the DB
+		// Search for patient
+		int pid;
+		String pname;
+		String gender;
+		int age;
+
+		do { // ID
+			System.out.print("Input Patient's ID:");
+			try {
+				pid = Integer.parseInt(in.readLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // Name
+			System.out.print("Input Patient's name:");
+			try {
+				pname = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // Gender
+			System.out.print("Input Patient's Gender (M, F):");
+			try {
+				gender = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // age
+			System.out.print("Input Patient's age:");
+			try {
+				age = Integer.parseInt(in.readLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		try { // Run the query
+			String query = "SELECT patient_ID FROM Patient WHERE patient_ID = " + pid + ";";
+			ResultSet rs = esql.executeQuery(query);
+			System.out.println(rs.getString(i));
+		} catch (Exception e) {
+			System.out.println("Table update error! Please double check values!");
+		}
+		return;
 	}
 
 	public static void ListAppointmentsOfDoctor(DBproject esql) {//5
