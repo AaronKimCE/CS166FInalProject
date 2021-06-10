@@ -345,15 +345,90 @@ public class DBproject{
 			} // end try
 		} while (true);
 		try { // Run the query
-			String query = "INSERT INTO Doctor (doctor_ID, name, specialty, did) VALUES (" + did + ", " + dname + ", " + Specialty + ", " + deptid + ");";
+			String query = "INSERT INTO Doctor (doctor_ID, name, specialty, did) VALUES (" + did + ", \'" + dname + "\', \'" + Specialty + "\', " + deptid + ");";
 			esql.executeUpdate(query);
 		} catch (Exception e) {
-			System.out.println("Table update error!");
+			System.out.println("Table update error! Please double check values!");
 		}
 		return;
 	}
 	
 	public static void AddPatient(DBproject esql) {//2
+	// Add a patient to the database
+		int pid;
+		String pname;
+		String gender;
+		int age;
+		String address;
+		int prevn;
+
+		do { // ID
+			System.out.print("Input Patient's ID:");
+			try {
+				pid = Integer.parseInt(in.readLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // Name
+			System.out.print("Input Patient's name:");
+			try {
+				pname = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // Gender
+			System.out.print("Input Patient's Gender (M, F):");
+			try {
+				gender = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // age
+			System.out.print("Input Patient's age:");
+			try {
+				age = Integer.parseInt(in.readLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // Address
+			System.out.print("Input Patient's address:");
+			try {
+				address = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // Num Appts
+			System.out.print("Input Patient's Number of Previous Appointments:");
+			try {
+				prevn = Integer.parseInt(in.readLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		try { // Run the query
+			String query = "INSERT INTO Patient (patient_ID, name, gtype, age, address, number_of_appts) VALUES (" + pid + ", \'" + pname + "\', \'" + gender + "\', " + age + ", \'" + address + "\', " + prevn + ");";
+			esql.executeUpdate(query);
+		} catch (Exception e) {
+			System.out.println("Table update error! Please double check values!");
+		}
+		return;
 	}
 
 	public static void AddAppointment(DBproject esql) {//3
