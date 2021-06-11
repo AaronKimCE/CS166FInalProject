@@ -703,7 +703,7 @@ public class DBproject{
 		} catch (Exception e) {
 			System.out.println("Search Table Error! Please double check values!");
 		}
-		if (rs3.get(0).get(0) == "") { // Didn't find appointment must update
+		if (rs3.size() == 0) { // Didn't find appointment must update
 			System.out.println("Appointment was not found in database, attempting to add new appointment...");
 			try { // Run the query
 				String query = "INSERT INTO Appointment (appnt_ID, adate, time_slot, status) VALUES (" + aid + ", \'" + date + "\', \'" + timeslot + "\', \'" + status + "\');";
@@ -813,6 +813,37 @@ public class DBproject{
 
 	public static void ListAvailableAppointmentsOfDepartment(DBproject esql) {//6
 		// For a department name and a specific date, find the list of available appointments of the department
+		String dname;
+		String date;
+
+		do { // Name
+			System.out.print("Input Department's Name:");
+			try {
+				dname = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // Date of appointment
+			System.out.print("Input date of appointments (YYYY-MM-DD):");
+			try {
+				date = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		try { // Run the query
+			String query = "SELECT A.appnt_ID, A.timeslot FROM Appointment A, Doctor D, Department De, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appnt_ID = A.appnt_ID AND D.did = De.dept_ID AND A.status = 'AV' AND A.date = DATE(\'" + date + "\') AND De.name = \'" + dname + "\';";
+			esql.executeQueryAndPrintResult(query);
+		} catch (Exception e) {
+			System.out.println("Table Search Error! Please double check values!");
+		}
+
+		return;
 	}
 
 	public static void ListStatusNumberOfAppointmentsPerDoctor(DBproject esql) {//7
