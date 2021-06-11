@@ -756,6 +756,7 @@ public class DBproject{
 			}
 		} else {
 			System.out.println("Unknown Appointment Status.");
+			System.out.println(rs3.get(0).get(0));
 		}
 
 		return;
