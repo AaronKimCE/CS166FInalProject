@@ -911,7 +911,7 @@ public class DBproject{
 		}
 
 		for (int i = 0; i < Container.size(); i++) { // Print all values in our format
-			System.out.println("DoctorID " + i + " " + Container.get(i).get(1)) + " PA " + Container.get(i).get(2)) + " AC " + Container.get(i).get(3)) + " AV " + Container.get(i).get(4)) + " WL ";
+			System.out.println("DoctorID " + i + " " + Container.get(i).get(1) + " PA " + Container.get(i).get(2) + " AC " + Container.get(i).get(3) + " AV " + Container.get(i).get(4) + " WL ");
 		}
 	}
 
