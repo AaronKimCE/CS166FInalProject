@@ -649,8 +649,10 @@ public class DBproject{
 		String date;
 		String timeslot;
 		String status;
-		List<List<String>> rs3 = new ArrayList<List<String>>();;
-		rs3.get(0).set(0, ""); 
+		List<List<String>> rs3 = new ArrayList<List<String>>();
+		List<String> rs3b = new ArrayList<String>();
+		rs3b.add("");
+		rs3.add(rs3b);
 
 		do { // ID
 			System.out.print("Input Appointment's ID:");
