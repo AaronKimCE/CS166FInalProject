@@ -924,7 +924,7 @@ public class DBproject{
 		for (int i = 0; i <= arraySize; i++) { // Begin sorting per row
 			int maxV = Integer.parseInt(Container.get(i).get(1));
 			int index = 1;
-			int temp = maxV;
+			String temp = Container.get(i).get(1);
 			String temp2 = Status_Holder.get(i).get(1);
 			for (int j = 2; j <= 5; i++) {
 				if (Integer.parseInt(Container.get(i).get(j)) > maxV) {
