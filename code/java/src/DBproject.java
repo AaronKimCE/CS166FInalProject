@@ -866,7 +866,7 @@ public class DBproject{
 			} // end try
 		} while (true);
 		try { // Run the query
-			String query = "SELECT D.doctor_ID, D.name, COUNT(A.appnt_ID) FROM Doctor D, Appointment A, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND A.status = \'" + status + "\' GROUP BY D.doctor_ID ORDER BY D.doctor_ID DESC;";
+			String query = "SELECT D.doctor_ID, D.name, COUNT(A.appnt_ID) AS TotalPatients FROM Doctor D, Appointment A, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND A.status = \'" + status + "\' GROUP BY D.doctor_ID ORDER BY D.doctor_ID ASC;";
 			esql.executeQueryAndPrintResult(query);
 		} catch (Exception e) {
 			System.out.println("Table Search Error! Please double check values!");
