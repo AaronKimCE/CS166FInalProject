@@ -938,8 +938,42 @@ public class DBproject{
 			Status_Holder.get(i).set(index - 1, temp2);
 		}
 
+		for (int i = 0; i <= arraySize; i++) { // Column 2
+			int maxV = Integer.parseInt(Container.get(i).get(2));
+			int index = 2;
+			String temp = Container.get(i).get(2);
+			String temp2 = Status_Holder.get(i).get(1);
+			for (int j = 3; j <= 4; j++) {
+				if (Integer.parseInt(Container.get(i).get(j)) > maxV) {
+					maxV = Integer.parseInt(Container.get(i).get(j));
+					index = j;
+				}
+			} // Swapping first and max
+			Container.get(i).set(2, Container.get(i).get(index));
+			Container.get(i).set(index, temp);
+			Status_Holder.get(i).set(1, Status_Holder.get(i).get(index - 1));
+			Status_Holder.get(i).set(index - 1, temp2);
+		}
+
+		for (int i = 0; i <= arraySize; i++) { // Column 3
+			int maxV = Integer.parseInt(Container.get(i).get(2));
+			int index = 3;
+			String temp = Container.get(i).get(3);
+			String temp2 = Status_Holder.get(i).get(2);
+			for (int j = 4; j <= 4; j++) {
+				if (Integer.parseInt(Container.get(i).get(j)) > maxV) {
+					maxV = Integer.parseInt(Container.get(i).get(j));
+					index = j;
+				}
+			} // Swapping first and max
+			Container.get(i).set(3, Container.get(i).get(index));
+			Container.get(i).set(index, temp);
+			Status_Holder.get(i).set(2, Status_Holder.get(i).get(index - 1));
+			Status_Holder.get(i).set(index - 1, temp2);
+		}
+
 		for (int i = 0; i <= arraySize; i++) { // Print all values in our format
-			System.out.println("DoctorID " + i + " " + Container.get(i).get(1) + Status_Holder.get(i).get(0) + Container.get(i).get(2) + Status_Holder.get(i).get(1) + Container.get(i).get(3) + Status_Holder.get(i).get(2) + Container.get(i).get(4) + Status_Holder.get(i).get(3));
+			System.out.println("DoctorID " + i + " " + Container.get(i).get(1) + " " + Status_Holder.get(i).get(0) + " " + Container.get(i).get(2) + " " +  Status_Holder.get(i).get(1) + " " +  Container.get(i).get(3) + " " +  Status_Holder.get(i).get(2) + " " +  Container.get(i).get(4) + " " +  Status_Holder.get(i).get(3));
 		}
 	}
 
