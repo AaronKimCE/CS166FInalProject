@@ -853,11 +853,35 @@ public class DBproject{
 		rs3b.add("");
 		rs3.add(rs3b);
 
-		try { // Run the query
-			String query = "SELECT D.doctor_ID, D.name, COUNT(A.appnt_ID) FROM Doctor D, Appointment A, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND A.status = \'PA\' GROUP BY D.doctor_ID ORDER BY D.doctor_ID ASC;";
-			esql.executeQueryAndPrintResult(query);
+		try { // Get the max value of doctorID
+			String query = "SELECT MAX(D.doctor_ID) FROM Doctor D;";
+			rs3 = esql.executeQueryAndReturnResult(query);
 		} catch (Exception e) {
 			System.out.println("Table Search Error!!");
+		}
+
+		List<List<String>> Container = new ArrayList<List<String>>(); // Initialize container for values
+		for (int i = 0; i <= Integer.parseInt(rs3.get(0).get(0)); i++) {
+			List<String> index = new ArrayList<String>();
+			index.add("" + i);
+			for (int i = 0; i < 4; i++) {
+				index.add("0");
+			}
+			Container.add(index);
+		}
+
+		try { // Get Array of doctor ID with PA appointments
+			String query = "SELECT D.doctor_ID, COUNT(A.appnt_ID) FROM Doctor D, Appointment A, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND A.status = \'PA\' GROUP BY D.doctor_ID ORDER BY D.doctor_ID ASC;";
+			rs3 = esql.executeQueryAndReturnResult(query);
+		} catch (Exception e) {
+			System.out.println("Table Search Error!!");
+		}
+		for (int i = 0; i < rs3.size(); i++) {
+			Container.get(rs3.get(i).get(0)).set(1, rs3.get(i).get(1));
+		}
+
+		for (int i = 0; i < Container.size(); i++) { // Print all values in our format
+			System.out.println("DoctorID " + Container.get(i).get(0) + " " + Container.get(i).get(1));
 		}
 	}
 
