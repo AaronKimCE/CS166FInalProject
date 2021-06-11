@@ -860,8 +860,9 @@ public class DBproject{
 			System.out.println("Table Search Error!!");
 		}
 
+		int arraySize = Integer.parseInt(rs3.get(0).get(0))
 		List<List<String>> Container = new ArrayList<List<String>>(); // Initialize container for values
-		for (int i = 0; i <= Integer.parseInt(rs3.get(0).get(0)); i++) {
+		for (int i = 0; i <= arraySize; i++) {
 			List<String> index = new ArrayList<String>();
 			index.add("" + i);
 			for (int j = 0; j < 4; j++) {
@@ -910,8 +911,35 @@ public class DBproject{
 			Container.get(Integer.parseInt(rs3.get(i).get(0))).set(4, rs3.get(i).get(1));
 		}
 
+		List<List<String>> Status_Holder = new ArrayList<List<String>>(); // Initialize container for status values
+		for (int i = 0; i <= arraySize; i++) {
+			List<String> index = new ArrayList<String>();
+			index.add("PA");
+			index.add("AC");
+			index.add("AV");
+			index.add("WL");
+			Status_Holder.add(index);
+		}
+
+		for (int i = 0; i <= arraySize; i++) { Begin sorting per row
+			int maxV = Integer.parseInt(Container.get(i).get(1))
+			int index = 1;
+			int temp = maxV;
+			String temp2 = Status_Holder.get(i).get(1);
+			for (int j = 2; j <= 5; i++) {
+				if (Integer.parseInt(Container.get(i).get(j)) > maxV) {
+					maxV = Integer.parseInt(Container.get(i).get(j));
+					index = j;
+				}
+			} // Swapping first and max
+			Container.get(i).set(1, Container.get(i).get(index));
+			Container.get(i).set(index, temp);
+			Status_Holder.get(i).set(1, Status_Holder.get(i).get(index - 1));
+			Status_Holder.get(i).set(index - 1, temp2);
+		}
+
 		for (int i = 0; i < Container.size(); i++) { // Print all values in our format
-			System.out.println("DoctorID " + i + " " + Container.get(i).get(1) + " PA " + Container.get(i).get(2) + " AC " + Container.get(i).get(3) + " AV " + Container.get(i).get(4) + " WL ");
+			System.out.println("DoctorID " + i + " " + Container.get(i).get(1) + Status_Holder.get(i).get(0) + Container.get(i).get(2) + Status_Holder.get(i).get(1) + Container.get(i).get(3) + Status_Holder.get(i).get(2) + Container.get(i).get(4) + Status_Holder.get(i).get(3));
 		}
 	}
 
