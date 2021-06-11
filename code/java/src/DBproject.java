@@ -168,7 +168,7 @@ public class DBproject{
 		int rowCount = 0;
 
 		//iterates through the result set and count nuber of results.
-		if(rs.next()){
+		while(rs.next()){
 			rowCount++;
 		}//end while
 		stmt.close ();
@@ -539,6 +539,26 @@ public class DBproject{
 				continue;
 			} // end try
 		} while (true);
+		do { // Address
+			System.out.print("Input Patient's address:");
+			try {
+				address = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // Num Appts
+			System.out.print("Input Patient's Number of Previous Appointments:");
+			try {
+				prevn = Integer.parseInt(in.readLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
 		try { // Run the query
 			String query = "SELECT patient_ID FROM Patient WHERE patient_ID = " + pid + ";";
 			rs1 = esql.executeQuery(query);
@@ -547,26 +567,6 @@ public class DBproject{
 		}
 		if (rs1 == 0) { // Didn't find patient must update
 			System.out.println("Patient was not found in database, attempting to add new patient...");
-			do { // Address
-				System.out.print("Input Patient's address:");
-				try {
-					address = in.readLine();
-					break;
-				} catch (Exception e) {
-					System.out.println("Your input is invalid!");
-					continue;
-				} // end try
-			} while (true);
-			do { // Num Appts
-				System.out.print("Input Patient's Number of Previous Appointments:");
-				try {
-					prevn = Integer.parseInt(in.readLine());
-					break;
-				} catch (Exception e) {
-					System.out.println("Your input is invalid!");
-					continue;
-				} // end try
-			} while (true);
 			try { // Run the query
 				String query = "INSERT INTO Patient (patient_ID, name, gtype, age, address, number_of_appts) VALUES (" + pid + ", \'" + pname + "\', \'" + gender + "\', " + age + ", \'" + address + "\', " + prevn + ");";
 				esql.executeUpdate(query);
@@ -693,7 +693,7 @@ public class DBproject{
 		} while (true);
 		try { // Run the query
 			String query = "SELECT status FROM Appointment WHERE appnt_ID = " + aid + ";";
-			rs3 = esql.executeQuery(query);
+			rs3 = esql.executeQueryAndReturnResult(query);
 		} catch (Exception e) {
 			System.out.println("Search Table Error! Please double check values!");
 		}
@@ -716,9 +716,7 @@ public class DBproject{
 			try { // Run the query
 				String query = "UPDATE Appointment SET status = \'WL\' WHERE appnt_ID = " + aid + ";"; // UPDATE appointment to WL
 				esql.executeUpdate(query);
-				int numappts;
-				numappts = esql.executeQuery("SELECT number_of_appts FROM Patient WHERE patient_ID = " + pid + ";");
-				query = "UPDATE Patient SET number_of_appts = " + (numappts + 1) + " WHERE patient_ID = " + pid + ";"; // UPDATE number appnts
+				query = "UPDATE Patient SET number_of_appts = " + (prevn + 1) + " WHERE patient_ID = " + pid + ";"; // UPDATE number appnts
 				esql.executeUpdate(query);
 				// Adding appointment to has_appointment table
 				query = "INSERT INTO has_appointment (appt_id, doctor_id) VALUES (" + aid + ", " + did + ");";
@@ -731,9 +729,7 @@ public class DBproject{
 			try { // Run the query
 				String query = "UPDATE Appointment SET status = \'AC\' WHERE appnt_ID = " + aid + ";"; // UPDATE appointment to AC
 				esql.executeUpdate(query);
-				int numappts;
-				numappts = esql.executeQuery("SELECT number_of_appts FROM Patient WHERE patient_ID = " + pid + ";");
-				query = "UPDATE Patient SET number_of_appts = " + (numappts + 1) + " WHERE patient_ID = " + pid + ";"; // UPDATE number appnts
+				query = "UPDATE Patient SET number_of_appts = " + (prevn + 1) + " WHERE patient_ID = " + pid + ";"; // UPDATE number appnts
 				esql.executeUpdate(query);
 
 				// Adding appointment to has_appointment table
@@ -745,9 +741,7 @@ public class DBproject{
 			}
 		} else if (rs3.getString(1) == "WL") { // Appointment is waitlisted, update tuples
 			try { // Run the query
-				int numappts;
-				numappts = esql.executeQuery("SELECT number_of_appts FROM Patient WHERE patient_ID = " + pid + ";");
-				String query = "UPDATE Patient SET number_of_appts = " + (numappts + 1) + " WHERE patient_ID = " + pid + ";"; // UPDATE number appnts
+				query = "UPDATE Patient SET number_of_appts = " + (prevn + 1) + " WHERE patient_ID = " + pid + ";"; // UPDATE number appnts
 				esql.executeUpdate(query);
 
 				// Adding appointment to has_appointment table
