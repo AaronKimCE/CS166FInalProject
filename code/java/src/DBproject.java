@@ -925,7 +925,7 @@ public class DBproject{
 			int maxV = Integer.parseInt(Container.get(i).get(1));
 			int index = 1;
 			String temp = Container.get(i).get(1);
-			String temp2 = Status_Holder.get(i).get(1);
+			String temp2 = Status_Holder.get(i).get(0);
 			for (int j = 2; j <= 5; i++) {
 				if (Integer.parseInt(Container.get(i).get(j)) > maxV) {
 					maxV = Integer.parseInt(Container.get(i).get(j));
@@ -934,11 +934,11 @@ public class DBproject{
 			} // Swapping first and max
 			Container.get(i).set(1, Container.get(i).get(index));
 			Container.get(i).set(index, temp);
-			Status_Holder.get(i).set(1, Status_Holder.get(i).get(index - 1));
+			Status_Holder.get(i).set(0, Status_Holder.get(i).get(index - 1));
 			Status_Holder.get(i).set(index - 1, temp2);
 		}
 
-		for (int i = 0; i < Container.size(); i++) { // Print all values in our format
+		for (int i = 0; i <= arraySize; i++) { // Print all values in our format
 			System.out.println("DoctorID " + i + " " + Container.get(i).get(1) + Status_Holder.get(i).get(0) + Container.get(i).get(2) + Status_Holder.get(i).get(1) + Container.get(i).get(3) + Status_Holder.get(i).get(2) + Container.get(i).get(4) + Status_Holder.get(i).get(3));
 		}
 	}
