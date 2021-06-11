@@ -715,7 +715,7 @@ public class DBproject{
 		// Check the appointment status & update
 		if (rs3.get(0).get(0).equals("PA")) { // Past appointment (Not available);
 			System.out.println("Appointment already concluded. Not available.");
-		} else if (rs3.get(0).get(0).equals("AC") { // Appointment already active, change to waitlisted and update tuples
+		} else if (rs3.get(0).get(0).equals("AC")) { // Appointment already active, change to waitlisted and update tuples
 			try { // Run the query
 				String query = "UPDATE Appointment SET status = \'WL\' WHERE appnt_ID = " + aid + ";"; // UPDATE appointment to WL
 				esql.executeUpdate(query);
