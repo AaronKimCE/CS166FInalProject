@@ -802,7 +802,7 @@ public class DBproject{
 			} // end try
 		} while (true);
 		try { // Run the query
-			String query = "SELECT A.appnt_ID, A.status FROM Appointment A, Doctor D, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND (A.status = 'AC' OR A.status = 'AV') AND D.doctor_ID = " + did + " AND A.adate >= DATE(\'" + startdate + "\') AND A.adate <= DATE(\'" + enddate + "\');
+			String query = "SELECT A.appnt_ID, A.status FROM Appointment A, Doctor D, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND (A.status = 'AC' OR A.status = 'AV') AND D.doctor_ID = " + did + " AND A.adate >= DATE(\'" + startdate + "\') AND A.adate <= DATE(\'" + enddate + "\');";
 			esql.executeQueryAndPrintResult(query);
 		} catch (Exception e) {
 			System.out.println("Table Search Error! Please double check values!");
