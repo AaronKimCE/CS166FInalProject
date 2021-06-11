@@ -926,7 +926,7 @@ public class DBproject{
 			int index = 1;
 			String temp = Container.get(i).get(1);
 			String temp2 = Status_Holder.get(i).get(0);
-			for (int j = 2; j <= 4; i++) {
+			for (int j = 2; j <= 4; j++) {
 				if (Integer.parseInt(Container.get(i).get(j)) > maxV) {
 					maxV = Integer.parseInt(Container.get(i).get(j));
 					index = j;
