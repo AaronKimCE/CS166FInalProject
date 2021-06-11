@@ -347,6 +347,7 @@ public class DBproject{
 		try { // Run the query
 			String query = "INSERT INTO Doctor (doctor_ID, name, specialty, did) VALUES (" + did + ", \'" + dname + "\', \'" + Specialty + "\', " + deptid + ");";
 			esql.executeUpdate(query);
+			System.out.println("Doctor added.");
 		} catch (Exception e) {
 			System.out.println("Table update error! Please double check values!");
 		}
@@ -425,6 +426,7 @@ public class DBproject{
 		try { // Run the query
 			String query = "INSERT INTO Patient (patient_ID, name, gtype, age, address, number_of_appts) VALUES (" + pid + ", \'" + pname + "\', \'" + gender + "\', " + age + ", \'" + address + "\', " + prevn + ");";
 			esql.executeUpdate(query);
+			System.out.println("Patient added.");
 		} catch (Exception e) {
 			System.out.println("Table update error! Please double check values!");
 		}
@@ -481,6 +483,7 @@ public class DBproject{
 		try { // Run the query
 			String query = "INSERT INTO Appointment (appnt_ID, adate, time_slot, status) VALUES (" + aid + ", \'" + date + "\', \'" + timeslot + "\', \'" + status + "\');";
 			esql.executeUpdate(query);
+			System.out.println("Appointment added.");
 		} catch (Exception e) {
 			System.out.println("Table update error! Please double check values!");
 		}
@@ -764,6 +767,48 @@ public class DBproject{
 
 	public static void ListAppointmentsOfDoctor(DBproject esql) {//5
 		// For a doctor ID and a date range, find the list of active and available appointments of the doctor
+		int did;
+		String startdate;
+		String enddate;
+
+		do { // ID
+			System.out.print("Input Doctor's ID:");
+			try {
+				did = Integer.parseInt(in.readLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // startdate
+			System.out.print("Starting from what date? (YYYY-MM-DD):");
+			try {
+				startdate = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		do { // enddate
+			System.out.print("Ending on what date? (YYYY-MM-DD):");
+			try {
+				enddate = in.readLine();
+				break;
+			} catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			} // end try
+		} while (true);
+		try { // Run the query
+			String query = "SELECT A.appnt_ID, A.status FROM Appointment A, Doctor D, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND (A.status = 'AC' OR A.status = 'AV') AND D.doctor_ID = " + did + " AND A.adate >= DATE(\'" + startdate + "\') AND A.adate <= DATE(\'" + enddate + "\');
+			esql.executeQueryAndPrintResult(query);
+		} catch (Exception e) {
+			System.out.println("Table Search Error! Please double check values!");
+		}
+
+		return;
 	}
 
 	public static void ListAvailableAppointmentsOfDepartment(DBproject esql) {//6
