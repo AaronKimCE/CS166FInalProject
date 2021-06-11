@@ -837,7 +837,7 @@ public class DBproject{
 			} // end try
 		} while (true);
 		try { // Run the query
-			String query = "SELECT A.appnt_ID, A.timeslot FROM Appointment A, Doctor D, Department De, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND D.did = De.dept_ID AND A.status = 'AV' AND A.adate = DATE(\'" + date + "\') AND De.name = \'" + dname + "\';";
+			String query = "SELECT A.appnt_ID, A.time_slot FROM Appointment A, Doctor D, Department De, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND D.did = De.dept_ID AND A.status = 'AV' AND A.adate = DATE(\'" + date + "\') AND De.name = \'" + dname + "\';";
 			esql.executeQueryAndPrintResult(query);
 		} catch (Exception e) {
 			System.out.println("Table Search Error! Please double check values!");
