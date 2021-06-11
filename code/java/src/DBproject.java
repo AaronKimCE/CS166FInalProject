@@ -860,7 +860,7 @@ public class DBproject{
 			System.out.println("Table Search Error!!");
 		}
 
-		int arraySize = Integer.parseInt(rs3.get(0).get(0))
+		int arraySize = Integer.parseInt(rs3.get(0).get(0));
 		List<List<String>> Container = new ArrayList<List<String>>(); // Initialize container for values
 		for (int i = 0; i <= arraySize; i++) {
 			List<String> index = new ArrayList<String>();
@@ -921,8 +921,8 @@ public class DBproject{
 			Status_Holder.add(index);
 		}
 
-		for (int i = 0; i <= arraySize; i++) { Begin sorting per row
-			int maxV = Integer.parseInt(Container.get(i).get(1))
+		for (int i = 0; i <= arraySize; i++) { // Begin sorting per row
+			int maxV = Integer.parseInt(Container.get(i).get(1));
 			int index = 1;
 			int temp = maxV;
 			String temp2 = Status_Holder.get(i).get(1);
