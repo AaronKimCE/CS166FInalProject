@@ -854,7 +854,7 @@ public class DBproject{
 		rs3.add(rs3b);
 
 		try { // Run the query
-			String query = "SELECT Doctor.doctor_ID, COUNT(Appointment.appnt_ID) FROM Doctor, has_appointment LEFT JOIN Appointment ON has_appointment.appt_ID = Appointment.appnt_ID WHERE Doctor.doctor_ID = has_appointment.doctor_ID AND Appointment.status = \'PA\' GROUP BY Doctor.doctor_ID ORDER BY Doctor.doctor_ID;";
+			String query = "SELECT Doctor.doctor_ID, COUNT(Appointment.appnt_ID) FROM Doctor, has_appointment LEFT JOIN Appointment ON has_appointment.appt_ID = Appointment.appnt_ID LEFT JOIN Doctor ON Doctor.doctor_ID = has_appointment.appt_ID WHERE Doctor.doctor_ID = has_appointment.doctor_ID AND Appointment.status = \'PA\' GROUP BY Doctor.doctor_ID ORDER BY Doctor.doctor_ID;";
 			esql.executeQueryAndPrintResult(query);
 		} catch (Exception e) {
 			System.out.println("Table Search Error!!");
