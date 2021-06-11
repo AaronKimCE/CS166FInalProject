@@ -876,12 +876,42 @@ public class DBproject{
 		} catch (Exception e) {
 			System.out.println("Table Search Error!!");
 		}
-		for (int i = 0; i < rs3.size(); i++) {
+		for (int i = 0; i < rs3.size(); i++) { // Insert found data into the Container
 			Container.get(Integer.parseInt(rs3.get(i).get(0))).set(1, rs3.get(i).get(1));
 		}
 
+		try { // Get Array of doctor ID with AC appointments
+			String query = "SELECT D.doctor_ID, COUNT(A.appnt_ID) FROM Doctor D, Appointment A, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND A.status = \'AC\' GROUP BY D.doctor_ID ORDER BY D.doctor_ID ASC;";
+			rs3 = esql.executeQueryAndReturnResult(query);
+		} catch (Exception e) {
+			System.out.println("Table Search Error!!");
+		}
+		for (int i = 0; i < rs3.size(); i++) { // Insert found data into the Container
+			Container.get(Integer.parseInt(rs3.get(i).get(0))).set(2, rs3.get(i).get(1));
+		}
+
+		try { // Get Array of doctor ID with AV appointments
+			String query = "SELECT D.doctor_ID, COUNT(A.appnt_ID) FROM Doctor D, Appointment A, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND A.status = \'AV\' GROUP BY D.doctor_ID ORDER BY D.doctor_ID ASC;";
+			rs3 = esql.executeQueryAndReturnResult(query);
+		} catch (Exception e) {
+			System.out.println("Table Search Error!!");
+		}
+		for (int i = 0; i < rs3.size(); i++) { // Insert found data into the Container
+			Container.get(Integer.parseInt(rs3.get(i).get(0))).set(3, rs3.get(i).get(1));
+		}
+
+		try { // Get Array of doctor ID with WL appointments
+			String query = "SELECT D.doctor_ID, COUNT(A.appnt_ID) FROM Doctor D, Appointment A, has_appointment H WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND A.status = \'WL\' GROUP BY D.doctor_ID ORDER BY D.doctor_ID ASC;";
+			rs3 = esql.executeQueryAndReturnResult(query);
+		} catch (Exception e) {
+			System.out.println("Table Search Error!!");
+		}
+		for (int i = 0; i < rs3.size(); i++) { // Insert found data into the Container
+			Container.get(Integer.parseInt(rs3.get(i).get(0))).set(4, rs3.get(i).get(1));
+		}
+
 		for (int i = 0; i < Container.size(); i++) { // Print all values in our format
-			System.out.println("DoctorID " + Container.get(i).get(0) + " " + Container.get(i).get(1));
+			System.out.println("DoctorID " + i + " " + Container.get(i).get(1)) + " PA " + Container.get(i).get(2)) + " AC " + Container.get(i).get(3)) + " AV " + Container.get(i).get(4)) + " WL ";
 		}
 	}
 
