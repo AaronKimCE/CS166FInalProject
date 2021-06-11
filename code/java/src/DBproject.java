@@ -864,7 +864,7 @@ public class DBproject{
 		for (int i = 0; i <= Integer.parseInt(rs3.get(0).get(0)); i++) {
 			List<String> index = new ArrayList<String>();
 			index.add("" + i);
-			for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
 				index.add("0");
 			}
 			Container.add(index);
@@ -877,7 +877,7 @@ public class DBproject{
 			System.out.println("Table Search Error!!");
 		}
 		for (int i = 0; i < rs3.size(); i++) {
-			Container.get(rs3.get(i).get(0)).set(1, rs3.get(i).get(1));
+			Container.get(Integer.parseInt(rs3.get(i).get(0))).set(1, rs3.get(i).get(1));
 		}
 
 		for (int i = 0; i < Container.size(); i++) { // Print all values in our format
